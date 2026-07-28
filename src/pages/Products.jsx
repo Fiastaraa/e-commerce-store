@@ -1,68 +1,53 @@
-import { useState } from "react";
-import products from "../data/products";
+import { useMemo, useState } from "react";
 
 import ProductCard from "../components/ProductCard";
 import SearchBar from "../components/SearchBar";
 import CategoryFilter from "../components/CategoryFilter";
 
+import products from "../data/products";
+
 export default function Products() {
   const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
 
-  const [category, setCategory] =
-    useState("All");
-
-  const filteredProducts =
-    products.filter((product) => {
-      const matchSearch =
-        product.name
-          .toLowerCase()
-          .includes(search.toLowerCase());
-
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
       const matchCategory =
-        category === "All" ||
-        product.category === category;
+        category === "All" || product.category === category;
 
-      return (
-        matchSearch &&
-        matchCategory
-      );
+      const matchSearch = product.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      return matchCategory && matchSearch;
     });
+  }, [search, category]);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16">
+    <section className="max-w-7xl mx-auto px-6 py-14">
 
-      <div className="mb-10">
+      <h1 className="text-5xl font-bold">
+        Products
+      </h1>
 
-        <h1 className="text-5xl font-bold">
-          Our Products
-        </h1>
+      <p className="text-gray-500 mt-2">
+        Browse our latest electronic products.
+      </p>
 
-        <p className="text-gray-500 mt-3">
-          Find your favorite electronic products.
-        </p>
+      <div className="mt-10">
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+        />
 
+        <CategoryFilter
+          category={category}
+          setCategory={setCategory}
+        />
       </div>
 
-      <SearchBar
-        search={search}
-        setSearch={setSearch}
-      />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-10">
 
-      <CategoryFilter
-        category={category}
-        setCategory={setCategory}
-      />
-
-      <div
-        className="
-        mt-10
-        grid
-        grid-cols-1
-        sm:grid-cols-2
-        lg:grid-cols-4
-        gap-8
-        "
-      >
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <ProductCard
@@ -78,11 +63,12 @@ export default function Products() {
             </h2>
 
             <p className="text-gray-500 mt-3">
-              Try another keyword or category.
+              Try another keyword.
             </p>
 
           </div>
         )}
+
       </div>
 
     </section>

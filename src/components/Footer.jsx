@@ -1,7 +1,5 @@
 import {
-  Facebook,
-  Github,
-  Instagram,
+  Globe,
   Mail,
 } from "lucide-react";
 
@@ -53,13 +51,10 @@ export default function Footer() {
 
           <div className="mt-4 flex gap-4">
 
-            <Facebook className="hover:text-blue-400 cursor-pointer" />
-
-            <Instagram className="hover:text-pink-500 cursor-pointer" />
-
-            <Github className="hover:text-gray-300 cursor-pointer" />
+            <Globe className="hover:text-blue-400 cursor-pointer" />
 
             <Mail className="hover:text-red-400 cursor-pointer" />
+
 
           </div>
 
